@@ -1,0 +1,32 @@
+@startuml
+
+skinparam class {
+  BackgroundColor #ebebeb
+  ArrowColor      #333
+  BorderColor     #000
+}
+
+skinparam lineType ortho
+
+package builtins {
+  class builtins.RuntimeError {}
+  class builtins.str {}
+  class builtins.dict {}
+}
+
+package md.python.dict {
+  interface DictExceptionInterface {}
+  interface MergeDictionaryInterface {
+    + merge(left: dict, right: dict) -> dict
+  }
+  class DefaultMergeDictionary implements MergeDictionaryInterface {
+    + merge(left: dict, right: dict) -> dict
+  }
+
+  class CaseInsensitiveDictKey extends builtins.str {}
+  class CaseInsensitiveDict extends builtins.dict {}
+
+  CaseInsensitiveDict *--> CaseInsensitiveDictKey
+}
+
+@enduml
