@@ -1,4 +1,3 @@
-import copy
 import typing
 
 import md.python
@@ -85,15 +84,28 @@ def inline_index(
 
 def merge(left: dict, right: dict) -> dict:
     """ Merges two dictionaries into one and returns it """
-    merged_dict = copy.copy(left)
+    merged_dict = {}
+    for key, value in left.items():
+        merged_dict[key] = value
+
+    stack = []  # current_merged_dict, key, right_value
+
     for key, value in right.items():
-        if key in merged_dict:
-            if isinstance(merged_dict[key], dict) and isinstance(value, dict):
-                merged_dict[key] = merge(merged_dict[key], value)
-                continue
-            merged_dict[key] = right[key]  # warning: override
-            continue
-        merged_dict[key] = value  # just copy by key from second dict, which not exists in first
+        if key in merged_dict and isinstance(merged_dict[key], dict) and isinstance(value, dict):
+            stack.append((merged_dict, key, value))
+        else:
+            merged_dict[key] = value
+
+    while stack:
+        current_merged_dict, key, right_value = stack.pop()
+        current_merged_value = current_merged_dict[key]
+
+        for key, value in right_value.items():
+            if key in current_merged_value and isinstance(current_merged_value[key], dict) and isinstance(value, dict):
+                stack.append((current_merged_value, key, value))
+            else:
+                current_merged_value[key] = value
+
     return merged_dict
 
 
