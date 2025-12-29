@@ -7,11 +7,12 @@ import md.python
 # Metadata
 __version__ = '1.0.0'
 __author__ = 'https://md.land/md'
-
 __all__ = (
     # Metadata
     '__version__',
     '__author__',
+    # Exception
+    'DictExceptionInterface',
     # Contract
     'MergeDictionaryInterface',
     # Implementation:
@@ -25,12 +26,12 @@ __all__ = (
 
 
 # Exception
-class DictExceptionInterface:
+class DictExceptionInterface(md.python.PythonExceptionInterface):
     pass
 
 
 # Contract
-class MergeDictionaryInterface(md.python.PythonExceptionInterface):
+class MergeDictionaryInterface:
     def merge(self, left: dict, right: dict) -> dict:
         raise NotImplementedError
 

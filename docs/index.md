@@ -23,7 +23,7 @@ def merge(left: dict, right: dict) -> dict: ...
 ## Install
 
 ```sh
-pip install md.python.dict --index-url https://source.md.land/python/  
+pip install md.python.dict --index-url https://source.md.land/python/
 ```
 
 ## Usage

@@ -14,8 +14,12 @@ package builtins {
   class builtins.dict {}
 }
 
+package md.python {
+  interface md.python.PythonExceptionInterface {}
+}
+
 package md.python.dict {
-  interface DictExceptionInterface {}
+  interface DictExceptionInterface extends md.python.PythonExceptionInterface {}
   interface MergeDictionaryInterface {
     + merge(left: dict, right: dict) -> dict
   }
