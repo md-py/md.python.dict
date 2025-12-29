@@ -1,9 +1,31 @@
 import unittest.mock
+import typing
+
+import pytest
 
 import md.python.dict
 
 
-# Implementation
+# internal utility:
+def drown_dictionary(dictionary: dict, depth: int, key: typing.Hashable = 'key') -> dict:
+    for _ in range(depth):
+        dictionary = {key: dictionary}
+    return dictionary
+
+
+def dataset(data_set: typing.Dict[str, typing.Dict[str, typing.Any]]) -> pytest.mark.parametrize:
+    argnames = []
+    argvalues = []
+    ids = []
+    for id_, argument_map in data_set.items():
+        if not argnames:
+            argnames = list(argument_map.keys())
+        argvalues.append([argument_map[argument_value] for argument_value in argnames])
+        ids.append(id_)
+    return pytest.mark.parametrize(argnames=argnames, argvalues=argvalues, ids=ids)
+
+
+# Tests:
 class TestDefaultMergeDictionary:
     def test_merge(self) -> None:
         # arrange
@@ -89,46 +111,66 @@ class TestInlineIndex:
 
 
 class TestMergeDictionaries:
-    def test_merge_dictionaries_without_key_intersection(self) -> None:
+    @dataset({
+        'no deep': dict(depth=0),
+        'very deep': dict(depth=600),
+    })
+    def test_merge_dictionaries_without_key_intersection(self, depth: int) -> None:
         # arrange
-        dict1 = {'a': 1, 'b': 2}
-        dict2 = {'c': 3}
+        dict1 = drown_dictionary(dictionary={'a': 1, 'b': 2}, depth=depth)
+        dict2 = drown_dictionary(dictionary={'c': 3}, depth=depth)
+        expected_result = drown_dictionary(dictionary={'a': 1, 'b': 2, 'c': 3}, depth=depth)
 
         # act
         dict3 = md.python.dict.merge(left=dict1, right=dict2)
 
         # assert
-        assert {'a': 1, 'b': 2, 'c': 3} == dict3
+        assert expected_result == dict3
 
-    def test_merge_dictionaries_second_value_overrides(self) -> None:
+    @dataset({
+        'no deep': dict(depth=0),
+        'very deep': dict(depth=600),
+    })
+    def test_merge_dictionaries_second_value_overrides(self, depth: int) -> None:
         # arrange
-        dict1 = {'a': 1}
-        dict2 = {'a': 2}
+        dict1 = drown_dictionary(dictionary={'a': 1}, depth=depth)
+        dict2 = drown_dictionary(dictionary={'a': 2}, depth=depth)
+        expected_result = drown_dictionary(dictionary={'a': 2}, depth=depth)
 
         # act
         dict3 = md.python.dict.merge(left=dict1, right=dict2)
 
         # assert
-        assert {'a': 2} == dict3
+        assert expected_result == dict3
 
-    def test_merge_dictionaries_second_value_overrides_sequence(self) -> None:
+    @dataset({
+        'no deep': dict(depth=0),
+        'very deep': dict(depth=600),
+    })
+    def test_merge_dictionaries_second_value_overrides_sequence(self, depth: int) -> None:
         # arrange
-        dict1 = {'a': [1]}
-        dict2 = {'a': [2]}
+        dict1 = drown_dictionary(dictionary={'a': [1]}, depth=depth)
+        dict2 = drown_dictionary(dictionary={'a': [2]}, depth=depth)
+        expected_result = drown_dictionary(dictionary={'a': [2]}, depth=depth)
 
         # act
         dict3 = md.python.dict.merge(left=dict1, right=dict2)
 
         # assert
-        assert {'a': [2]} == dict3
+        assert expected_result == dict3
 
-    def test_merge_dictionaries_with_common_keys(self) -> None:
+    @dataset({
+        'no deep': dict(depth=0),
+        'very deep': dict(depth=600),
+    })
+    def test_merge_dictionaries_with_common_keys(self, depth: int) -> None:
         # arrange
-        dict1 = {'a': {'a': 1}}
-        dict2 = {'a': {'b': 2}}
+        dict1 = drown_dictionary(dictionary={'a': {'a': 1}}, depth=depth)
+        dict2 = drown_dictionary(dictionary={'a': {'b': 2}}, depth=depth)
+        expected_result = drown_dictionary(dictionary={'a': {'a': 1, 'b': 2}}, depth=depth)
 
         # act
         dict3 = md.python.dict.merge(left=dict1, right=dict2)
 
         # assert
-        assert {'a': {'a': 1, 'b': 2}} == dict3
+        assert expected_result == dict3
