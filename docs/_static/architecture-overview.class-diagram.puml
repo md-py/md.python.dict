@@ -28,9 +28,14 @@ package md.python.dict {
   }
 
   class CaseInsensitiveDictKey extends builtins.str {}
-  class CaseInsensitiveDict extends builtins.dict {}
+  class CaseInsensitiveDict <V of Any> extends builtins.dict {
+    + __init__(dict_: Optional[Dict[Hashable, V]] = None, **kwargs: V) -> None
+    + __setitem__(key: Any, value: V) -> None
+    + __getitem__(key: Any) -> V
+    + __delitem__(key: Any) -> None
+  }
 
-  CaseInsensitiveDict *--> CaseInsensitiveDictKey
+  CaseInsensitiveDict *-right-> CaseInsensitiveDictKey
 }
 
 @enduml
