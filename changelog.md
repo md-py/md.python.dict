@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [x] fix: module marker exception usage
 - [x] enhancement: switch `merge` method from recursion to cycle
+- [x] enhancement: switch `flat` method from recursion to cycle
 
 ## [1.0.0] - 2023-01-27
 

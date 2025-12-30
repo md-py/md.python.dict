@@ -50,18 +50,19 @@ def flat(dict_: dict, initial_key: tuple = ()) -> dict:
     """
 
     flatten_dict = {}
+    stack = [(dict_, initial_key)]
 
-    for key, value in dict_.items():
-        flatten_key = initial_key + (key,)
+    while stack:
+        current_dict, current_path = stack.pop()
 
-        if isinstance(value, dict):
-            value = flat(value, flatten_key)
+        for key, value in current_dict.items():
+            new_path = current_path + (key,)
 
-            for nested_dict_key, nested_dict_value in value.items():
-                flatten_dict[nested_dict_key] = nested_dict_value
-        else:
-            flatten_dict[flatten_key] = value
+            if isinstance(value, dict):
+                stack.append((value, new_path))
+                continue
 
+            flatten_dict[new_path] = value
     return flatten_dict
 
 
