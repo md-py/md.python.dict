@@ -79,6 +79,25 @@ class TestFlat:
         assert ('root', 'foo', 'bar', 'baz') in flatted_dict
         assert flatted_dict[('root', 'foo', 'bar', 'baz')] == 42
 
+    @dataset({
+        'no deep': dict(depth=0, initial_key=()),
+        'very deep': dict(depth=600, initial_key=()),
+        'no deep / with initial key': dict(depth=0, initial_key=('x', 'y')),
+        'very deep / with initial key': dict(depth=600, initial_key=('x', 'y')),
+    })
+    def test_flat(self, depth: int, initial_key: tuple) -> None:
+        # arrange
+        dict_ = drown_dictionary({'key': 42}, depth=depth, key='key')
+
+        # act
+        flatted_dict = md.python.dict.flat(dict_=dict_, initial_key=initial_key)
+
+        key = initial_key + tuple(['key'] * (depth +1))
+
+        # assert
+        assert key in flatted_dict
+        assert flatted_dict[key] == 42
+
 
 class TestInlineIndex:
     def test_inline_index(self) -> None:
