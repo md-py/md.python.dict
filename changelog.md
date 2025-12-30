@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [x] enhancement: switch `flat` method from recursion to cycle
 - [x] refactoring: move `CaseInsensitiveDict` tests to other unit tests file
 - [x] enhancement: generalize & clarify typing for `CaseInsensitiveDict` classes
+- [x] documentation: add `CaseInsensitiveDict` classes documentation
 
 ## [1.0.0] - 2023-01-27
 
