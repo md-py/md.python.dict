@@ -110,8 +110,10 @@ def merge(left: dict, right: dict) -> dict:
     return merged_dict
 
 
+V = typing.TypeVar('V')
+
 class CaseInsensitiveDictKey(str):
-    def __init__(self, key) -> None:
+    def __init__(self, key: typing.Any) -> None:
         str.__init__(key)
         self._hash = hash(self.lower())
 
@@ -122,20 +124,27 @@ class CaseInsensitiveDictKey(str):
         return self._hash == hash(other)
 
 
-class CaseInsensitiveDict(dict):
-    def __init__(self, dict_: dict = None, **kwargs) -> None:
+class CaseInsensitiveDict(typing.Dict[str, V]):
+    def __init__(
+        self,
+        dict_: typing.Optional[typing.Dict[typing.Hashable, V]] = None,
+        **kwargs: V
+    ) -> None:
         super().__init__()
         if dict_:
             for key, value in dict_.items():
                 self[key] = value
-        for key, value in kwargs:
+        for key, value in kwargs.items():
             self[key] = value
 
-    def __contains__(self, key: typing.Hashable) -> bool:
+    def __contains__(self, key: typing.Any) -> bool:
         return super().__contains__(CaseInsensitiveDictKey(key))
 
-    def __setitem__(self, key: typing.Hashable, value: typing.Any) -> None:
+    def __setitem__(self, key: typing.Any, value: V) -> None:
         super().__setitem__(CaseInsensitiveDictKey(key), value)
 
-    def __getitem__(self, key: typing.Hashable) -> typing.Any:
+    def __getitem__(self, key: typing.Any) -> V:
         return super().__getitem__(CaseInsensitiveDictKey(key))
+
+    def __delitem__(self, key: typing.Any) -> None:
+        return super().__delitem__(CaseInsensitiveDictKey(key))
