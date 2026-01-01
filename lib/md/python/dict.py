@@ -69,7 +69,7 @@ def flat(dict_: dict, initial_key: tuple = ()) -> dict:
 def inline_index(
     dict_: typing.Dict[typing.Union[typing.Hashable, typing.Sequence], typing.Any],
     glue: str = '.'
-) -> typing.Dict[str, typing.Any]:  # todo rename param
+) -> typing.Dict[str, typing.Any]:
     """
     Cast flatten dictionary index (tuple) to scalar (dot separated, by default) notation (string)
 
@@ -79,7 +79,13 @@ def inline_index(
     assert all([isinstance(key, typing.Hashable) and isinstance(key, typing.Sequence) for key in dict_.keys()])
     dictionary = {}
     for key, value in dict_.items():
-        dictionary[glue.join(key)] = value
+        if isinstance(key, str):
+            dictionary[key] = value
+            continue
+
+        if hasattr(key, '__iter__'):
+            dictionary[glue.join([str(k) for k in key])] = value
+            continue
     return dictionary
 
 

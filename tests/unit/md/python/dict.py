@@ -137,7 +137,21 @@ class TestFlat:
 
 
 class TestInlineIndex:
-    def test_inline_index(self) -> None:
+    def test_inline_index_key_is_str(self) -> None:
+        # act
+        inlined_index_dict = md.python.dict.inline_index(dict_={
+            'foo': 'bar',
+            'baz': 42
+        })
+
+        # assert
+        assert 'foo' in inlined_index_dict
+        assert inlined_index_dict['foo'] == 'bar'
+
+        assert 'baz' in inlined_index_dict
+        assert inlined_index_dict['baz'] == 42
+
+    def test_inline_index_key_is_iterable(self) -> None:
         # act
         inlined_index_dict = md.python.dict.inline_index(dict_={
             ('foo', 'bar'): 'baz',
@@ -150,6 +164,16 @@ class TestInlineIndex:
 
         assert 'foo.bar.baz' in inlined_index_dict
         assert inlined_index_dict['foo.bar.baz'] == 42
+
+    def test_inline_index_key_is_complex_iterable(self) -> None:
+        # act
+        inlined_index_dict = md.python.dict.inline_index(dict_={
+            ('foo', 'bar', ('x', 'y')): 'baz',
+        })
+
+        # assert
+        assert "foo.bar.('x', 'y')" in inlined_index_dict
+        assert inlined_index_dict["foo.bar.('x', 'y')"] == 'baz'
 
     def test_inline_index_with_custom_glue(self) -> None:
         # act
