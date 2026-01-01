@@ -17,13 +17,13 @@ def inline_index(
     glue: str = '.'
 ) -> typing.Dict[str, typing.Any]:  ...
 
-def merge(left: dict, right: dict, merge_value_types: typing.Tuple[type] = None) -> dict: ...
+def merge(left: dict, right: dict) -> dict: ...
 ```
 
 ## Install
 
 ```sh
-pip install md.python.dict --index-url https://source.md.land/python/  
+pip install md.python.dict --index-url https://source.md.land/python/
 ```
 
 ## [Documentation](docs/index.md)

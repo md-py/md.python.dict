@@ -5,8 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] — 2025-01-01
+### Added
+
+- [x] feature: add CI/CD github workflow configuration
+
+### Changed
+
+- [x] fix: module marker exception usage
+- [x] enhancement: switch `merge` method from recursion to cycle
+- [x] enhancement: switch `flat` method from recursion to cycle
+- [x] refactoring: move `CaseInsensitiveDict` tests to other unit tests file
+- [x] enhancement: generalize & clarify typing for `CaseInsensitiveDict` classes
+- [x] documentation: add `CaseInsensitiveDict` classes documentation
+- [x] fix: typing issues in `inline_index` function
+- [x] documentation: fix typo, change markup for admonition 
+
 ## [1.0.0] - 2023-01-27
 
 - Initial implementation
 
+[1.1.0]: https://github.com/md-py/md.python.dict/releases/compare/1.0.0...1.1.0
 [1.0.0]: https://github.com/md-py/md.python.dict/releases/tag/1.0.0
