@@ -159,40 +159,38 @@ will return:
 }
 ```
 
-!!! warning
+> [!WARNING]
+> In some cases `merge` operation leads to data overwrite, for example:
+> 
+> ```python3
+> import md.python.dict
+> 
+> md.python.dict.merge(left={'a': ['some', 'useful', 'data']}, right={'a': None})
+> ```
+> 
+> will return:
+> 
+> ```python3
+> {'a': None}
+> ```
 
-    In some cases `merge` operation leads to data overwrite, for example:
-
-    ```python3
-    import md.python.dict
-
-    md.python.dict.merge(left={'a': ['some', 'useful', 'data']}, right={'a': None})
-    ```
-
-    will return:
-
-    ```python3
-    {'a': None}
-    ```
-
-!!! notice
-
-    `merge` operation does not merges types different from `dict` type, for example:
-
-    ```python3
-    import md.python.dict
-
-    md.python.dict.merge(
-        left={'a': ['some', 'useful', 'data']}, 
-        right={'a': ['here', 'no']}
-    )
-    ```
-
-    will return:
-
-    ```python3
-    {'a': ['here', 'no']}
-    ```
+> [!NOTE]
+> `merge` operation does not merges types different from `dict` type, for example:
+> 
+> ```python3
+> import md.python.dict
+> 
+> md.python.dict.merge(
+>     left={'a': ['some', 'useful', 'data']}, 
+>     right={'a': ['here', 'no']}
+> )
+> ```
+> 
+> will return:
+> 
+> ```python3
+> {'a': ['here', 'no']}
+> ```
 
 ### Case-insensitive dictionary
 

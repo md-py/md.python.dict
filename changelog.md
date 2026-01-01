@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [x] enhancement: generalize & clarify typing for `CaseInsensitiveDict` classes
 - [x] documentation: add `CaseInsensitiveDict` classes documentation
 - [x] fix: typing issues in `inline_index` function
+- [x] documentation: fix typo, change markup for admonition 
 
 ## [1.0.0] - 2023-01-27
 
